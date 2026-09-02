@@ -1,26 +1,36 @@
 # ⚡ Modern C++17 泛型异步线程池 (cpp-thread-pool)
 
-所属专业课：《操作系统》《多线程与高并发系统编程》
+所属专业课：《操作系统》《现代 C++ 并发编程》
 
-## 💡 为什么需要线程池？
-在多线程并发场景下，频繁通过操作系统 API（如 `pthread_create`）创建和销毁线程会带来高昂的内核态上下文切换、内存页表分配和初始化开销。
-本项目实现了**现代 C++17 工业级泛型异步线程池**：
-* **任务队列解耦**：生产者线程通过完美转发提交任务，消费者（Worker 线程）自旋挂起与唤醒。
-* **零开销异步结果获取**：深度结合 `std::future` 与 `std::packaged_task`，支持同步等待并提取任意类型返回值。
-* **异常跨线程传递**：任务内部抛出的异常可安全经由 `future.get()` 在主线程中捕获。
-* **优雅停机 (Graceful Shutdown)**：保证在析构或停机时，排队中的任务不会被意外丢弃。
+---
 
-## 🛠️ 构建与测试
+## 📖 工程目录结构解析
+
+```text
+cpp-thread-pool/
+├── include/       # 📌【头文件目录】：Header-only 泛型可变参数模板线程池实现
+├── src/           # 🔨【源码目录】：演示程序主入口
+├── tests/         # 🧪【单元测试】：高并发多任务调度、返回值异步获取与析构安全测试
+├── build/         # 📦【编译产物】：编译生成的可执行二进制文件
+├── Makefile       # ⚙️【一键编译脚本】：自动化编译指令
+└── README.md      # 📘【项目文档】：并发编程核心机制剖析
+```
+
+---
+
+## 🗂️ 本项目所有文件详细功能与角色速查
+
+| 所在目录 | 文件名 | 承担功能与底层作用 |
+| :--- | :--- | :--- |
+| `include/` | [`thread_pool.hpp`](./include/thread_pool.hpp) | **核心线程池类 (ThreadPool)**：Header-only 库，基于 C++17 可变参数模板，支持任意函数/参数类型提交，返回 `std::future<ReturnType>` |
+| `src/`     | [`main.cpp`](./src/main.cpp) | **实战示例程序**：演示多线程并发计算斐波那契数、批量数据处理与异步非阻塞取值 |
+| `tests/`   | [`test_thread_pool.cpp`](./tests/test_thread_pool.cpp) | **自动化压力测试**：验证 100 个并发任务无死锁、无任务遗漏、优雅停止 (`stop`) |
+
+---
+
+## 🛠️ 构建与测试运行
 
 ```bash
-# 使用 Makefile
-make test  # 运行自动化单元测试
-make run   # 运行综合功能演示
-
-# 或使用 CMake
-mkdir build && cd build
-cmake ..
-cmake --build .
-./test_thread_pool
-./thread_pool_demo
+make test  # 运行全套自动化并发测试
+make run   # 运行多任务异步计算演示
 ```
