@@ -2,17 +2,22 @@
 
 所属专业课：《操作系统》《现代 C++ 并发编程》
 
+> 🌟 **【零基础自学必读】**：想知道为什么不能无限开线程？Header-only 模板为什么不能写在 `.cpp` 里？`-pthread` 编译器底层做了什么？生产者-消费者模型如何零 CPU 占用休眠？请先阅读保姆级设计手册：  
+> 👉 **[📘 零基础工程架构与并发内核全景指南 (ARCHITECTURE_AND_DESIGN.md)](./ARCHITECTURE_AND_DESIGN.md)**
+
 ---
 
 ## 📖 工程目录结构
 
 ```text
 cpp-thread-pool/
-├── include/       # Header-only 泛型线程池核心类 (thread_pool.hpp)
-├── src/           # 演示主入口 (main.cpp)
-├── tests/         # 高并发压力与异步返回测试
-├── Makefile       # 一键编译脚本
-└── README.md      # 项目说明文档
+├── ARCHITECTURE_AND_DESIGN.md  # 🌟 零基础并发原理与手写复现指南
+├── include/                    # Header-only 泛型线程池核心类 (thread_pool.hpp)
+├── src/                        # 演示主入口 (main.cpp)
+├── tests/                      # 高并发压力与异步返回测试
+├── Makefile                    # 一键编译脚本
+├── CMakeLists.txt              # 跨平台构建工程
+└── README.md                   # 项目说明文档
 ```
 
 ---
